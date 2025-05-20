@@ -27,10 +27,14 @@ function Home() {
 
     const handleSearch = async (e) => {
         e.preventDefault();
+        if (!searchQuery.trim()) return; // checks for empty strings 
+        if (loading) return; // prevents user from searching when loading
+
         setLoading(true);
         try {
-            const searchResults = await searchMovies(searchQuery);
+            const searchResults = await searchMovies(searchQuery.trim());
             setMovies(searchResults);
+            setError(null)
         } catch (err) {
             console.error(err);
             setError("Failed to search movies...");
